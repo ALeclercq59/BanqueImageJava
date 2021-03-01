@@ -1,11 +1,19 @@
 package fr.BanqueImageJava.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "image")
+@Setter
+@Getter
+@ToString
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,23 +30,14 @@ public class Image {
 
     @ManyToMany
     @JoinTable(name = "image_categorie",
-            joinColumns = @JoinColumn(name = "idImage"),
-            inverseJoinColumns = @JoinColumn(name = "idCategorie"))
+            joinColumns = @JoinColumn(name = "idimage"),
+            inverseJoinColumns = @JoinColumn(name = "idcategorie"))
+    @ToString.Exclude
+    @JsonIgnoreProperties("images")
     private List<Categorie> categories;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "iduser")
     private Users users;
 
-    @Override
-    public String toString() {
-        return "Image{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", lien='" + lien + '\'' +
-                ", copyright=" + copyright +
-                ", publication=" + publication +
-                ", dateAccordPersonnePresente=" + dateAccord +
-                '}';
-    }
 }

@@ -42,13 +42,4 @@ class ImageRepositoryTest {
         log.trace("END findImageById");
     }
 
-    @Test
-    void findImagesByUserId() {
-        log.trace("START findImagesByUserId");
-        Long id = 1L;
-        var lst = repository.findAllByUserId(id);
-        log.trace("Images Id({}) : {}", id, lst);
-        log.trace("END findImagesByUserId");
-    }
-
 }

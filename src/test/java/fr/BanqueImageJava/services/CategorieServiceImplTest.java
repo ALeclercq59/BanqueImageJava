@@ -11,37 +11,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
-
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
-class ImageServiceImplTest {
+class CategorieServiceImplTest {
 
-    private final static Logger log = LoggerFactory.getLogger(ImageServiceImplTest.class);
+    private final static Logger log = LoggerFactory.getLogger(CategorieServiceImplTest.class);
 
     @Autowired
-    private ImageService service;
+    private CategorieService service;
 
     @BeforeEach
     void setUp() {
-        log.trace("Check if service Image is Injected ...");
-        assertNotNull(service, "ERROR Service Image NOT Injected !!!");
-        log.trace("Service Image Injected");
+        log.trace("Check if service Categorie is Injected ...");
+        assertNotNull(service, "ERROR Service Categorie NOT Injected !!!");
+        log.trace("Service Categorie Injected");
     }
 
     @Test
     void getAll() {
         var lst = service.getAll();
         lst.forEach(a -> log.trace("{}", a));
-        log.trace("Total number of images : {}", lst.size());
+        log.trace("Total number of categories : {}", lst.size());
     }
 
     @Test
     void create() {
         Users user = new Users();
-        user.setIdUser(2L);
+        user.setIdUser(1L);
         user.setFirstname("TestFirstname");
         user.setFirstname("Testname");
         user.setEmail("test@test.com");
@@ -49,7 +49,6 @@ class ImageServiceImplTest {
         user.setRole(0L);
 
         Categorie categorie = new Categorie();
-        categorie.setId(4L);
         categorie.setLibelle("Bâtiment");
 
         Image imageTest = new Image();
@@ -63,24 +62,24 @@ class ImageServiceImplTest {
         categorie.setImages(Collections.singletonList(imageTest));
 
         imageTest.setUsers(user);
-        service.create(imageTest);
-        log.trace("Create Image : {}", imageTest);
+        service.create(categorie);
+        log.trace("Create Categorie : {}", categorie);
     }
 
     @Test
     @Transactional
     void read() {
-        Long id = 4L;
-        Image image = service.read(id);
-        log.trace("Image : {}", image);
+        Long id = 3L;
+        Categorie categorie = service.read(id);
+        log.trace("Categorie : {}", categorie);
     }
 
     @Test
     void update() {
-        Image image = service.read(4L);
-        image.setLien("batiment.jpg");
-        service.update(image);
-        log.trace("Update Image : {}", image);
+        Categorie categorie = service.read(3L);
+        categorie.setLibelle("Gratte-ciel");
+        service.update(categorie);
+        log.trace("Update Categorie : {}", categorie);
     }
 
     @Test

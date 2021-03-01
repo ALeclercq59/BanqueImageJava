@@ -1,16 +1,23 @@
 package fr.BanqueImageJava.entities;
 
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name="user")
+@Getter
+@Setter
+@ToString
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "iduser")
-    private Long id;
+    private Long idUser;
 
     private String name;
     private String firstname;
@@ -18,18 +25,8 @@ public class Users {
     private String password;
     private Long role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "users")
+    @ToString.Exclude
     private List<Image> images;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "user_id=" + id +
-                ", name='" + name + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                '}';
-    }
 }

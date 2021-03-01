@@ -25,20 +25,20 @@ class UsersRepositoryTest {
     }
 
     @Test
-    void findAllImages() {
+    void findAllUsers() {
         log.trace("START findAllUsers");
         var lst = repository.findAll();
         lst.forEach(c->log.trace("{}", c));
-        log.trace("Number of images : {}", lst.size());
-        log.trace("END findAllImages");
+        log.trace("Number of users : {}", lst.size());
+        log.trace("END findAllUsers");
     }
 
     @Test
     void findUserById() {
-        log.trace("START findImageById");
+        log.trace("START findUsersById");
         Long id = 1L;
         Users user = repository.findById(id).orElse(null);
         log.trace("User Id({}) : {}", id, user);
-        log.trace("END findImageById");
+        log.trace("END findUsersById");
     }
 }
