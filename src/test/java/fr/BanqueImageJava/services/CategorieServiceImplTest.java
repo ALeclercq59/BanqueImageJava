@@ -13,8 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.transaction.Transactional;
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class CategorieServiceImplTest {
@@ -29,6 +28,7 @@ class CategorieServiceImplTest {
         log.trace("Check if service Categorie is Injected ...");
         assertNotNull(service, "ERROR Service Categorie NOT Injected !!!");
         log.trace("Service Categorie Injected");
+
     }
 
     @Test
