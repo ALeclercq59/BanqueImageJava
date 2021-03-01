@@ -13,10 +13,7 @@ public class Categorie {
 
     private String libelle;
 
-    @ManyToMany
-    @JoinTable(name = "image_categorie",
-            joinColumns = @JoinColumn(name = "idCategorie"),
-            inverseJoinColumns = @JoinColumn(name = "idImage"))
+    @ManyToMany(mappedBy="categories")
     private List<Image> images;
 
     @Override
@@ -24,7 +21,6 @@ public class Categorie {
         return "Categorie{" +
                 "id=" + id +
                 ", libelle='" + libelle + '\'' +
-                ", images=" + images +
                 '}';
     }
 }

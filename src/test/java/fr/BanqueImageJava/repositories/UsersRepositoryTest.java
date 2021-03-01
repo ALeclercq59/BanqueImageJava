@@ -1,7 +1,6 @@
 package fr.BanqueImageJava.repositories;
 
-import fr.BanqueImageJava.entities.Image;
-import fr.BanqueImageJava.entities.User;
+import fr.BanqueImageJava.entities.Users;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -12,12 +11,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class UserRepositoryTest {
+class UsersRepositoryTest {
 
-    private final static Logger log = LoggerFactory.getLogger(UserRepositoryTest.class);
+    private final static Logger log = LoggerFactory.getLogger(UsersRepositoryTest.class);
 
     @Autowired
-    private UserRepository repository;
+    private UsersRepository repository;
 
     @BeforeEach
     void setUp() {
@@ -38,7 +37,7 @@ class UserRepositoryTest {
     void findUserById() {
         log.trace("START findImageById");
         Long id = 1L;
-        User user = repository.findById(id).orElse(null);
+        Users user = repository.findById(id).orElse(null);
         log.trace("User Id({}) : {}", id, user);
         log.trace("END findImageById");
     }

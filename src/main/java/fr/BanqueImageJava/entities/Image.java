@@ -28,7 +28,7 @@ public class Image {
 
     @ManyToOne()
     @JoinColumn(name = "iduser")
-    private User user;
+    private Users users;
 
     @Override
     public String toString() {
@@ -39,7 +39,6 @@ public class Image {
                 ", copyright=" + copyright +
                 ", publication=" + publication +
                 ", dateAccordPersonnePresente=" + dateAccord +
-                ", user=" + user +
                 '}';
     }
 }
