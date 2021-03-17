@@ -1,7 +1,9 @@
 package fr.BanqueImageJava.controllers;
 
 import fr.BanqueImageJava.entities.Categorie;
+import fr.BanqueImageJava.entities.Image;
 import fr.BanqueImageJava.services.CategorieService;
+import fr.BanqueImageJava.services.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,28 +14,25 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/categories")
-public class CategorieController {
-    private final static Logger log = LoggerFactory.getLogger(CategorieController.class);
+@RequestMapping("api/images")
+public class ImageController {
+    private final static Logger log = LoggerFactory.getLogger(ImageController.class);
 
-    private CategorieService service;
+    public ImageService service;
 
-    public CategorieController(CategorieService service) {
+    public ImageController(ImageService service) {
         this.service = service;
     }
 
     @GetMapping({"", "/all"})
-    public List<Categorie> getAllCategories() {
+    public List<Image> getAllImages() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public Categorie getOneCategory(@PathVariable("id") Long id) {
+    public Image getOneImage(@PathVariable("id") Long id) {
         return service.read(id);
     }
 
-    @GetMapping("/{libelle}")
-    public Categorie getOneCategoryByTitle(@PathVariable("libelle") String libelle) {
-        return service.getOneCategoryByLibelle(libelle);
-    }
+
 }

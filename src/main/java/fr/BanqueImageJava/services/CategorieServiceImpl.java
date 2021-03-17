@@ -43,4 +43,8 @@ public class CategorieServiceImpl implements CategorieService{
     public void delete(Long id) {
         repository.deleteById(id);
     }
+
+    public Categorie getOneCategoryByLibelle(String libelle) {
+        return repository.getByLibelle(libelle);
+    }
 }

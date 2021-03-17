@@ -1,6 +1,7 @@
 package fr.BanqueImageJava.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -27,6 +28,7 @@ public class Users {
 
     @OneToMany(mappedBy = "users")
     @ToString.Exclude
+    @JsonIgnoreProperties("users")
     private List<Image> images;
 
 }

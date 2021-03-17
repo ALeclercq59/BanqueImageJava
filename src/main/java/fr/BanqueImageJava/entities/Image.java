@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class Image {
     private int publication;
 
     @Column(name = "dateaccordpersonnepresente")
-    private Date dateAccord;
+    private LocalDateTime dateAccord;
 
     @ManyToMany
     @JoinTable(name = "image_categorie",
@@ -38,6 +39,7 @@ public class Image {
 
     @ManyToOne
     @JoinColumn(name = "iduser")
+    @JsonIgnoreProperties("images")
     private Users users;
 
 }

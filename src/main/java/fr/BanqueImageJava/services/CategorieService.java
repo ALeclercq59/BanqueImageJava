@@ -10,4 +10,5 @@ public interface CategorieService {
     Categorie read(Long id);
     Categorie update(Categorie categorie);
     void delete(Long id);
+    Categorie getOneCategoryByLibelle(String libelle);
 }

@@ -21,7 +21,7 @@ public class Categorie {
 
     private String libelle;
 
-    @ManyToMany(mappedBy="categories", cascade=CascadeType.ALL)
+    @ManyToMany(mappedBy="categories")
     @ToString.Exclude
     @JsonIgnoreProperties("categories")
     private List<Image> images;

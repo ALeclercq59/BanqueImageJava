@@ -87,4 +87,11 @@ class CategorieServiceImplTest {
         service.delete(3L);
         assertNull(service.read(3L));
     }
+
+    @Test
+    void getOneCategoryByLibelle() {
+        String libelle = "Fusee";
+        Categorie categorie = service.getOneCategoryByLibelle(libelle);
+        log.trace("Category by libelle : {}", categorie);
+    }
 }
