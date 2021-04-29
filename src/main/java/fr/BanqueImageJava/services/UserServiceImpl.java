@@ -1,6 +1,5 @@
 package fr.BanqueImageJava.services;
 
-import fr.BanqueImageJava.entities.Categorie;
 import fr.BanqueImageJava.entities.Users;
 import fr.BanqueImageJava.repositories.UsersRepository;
 import org.slf4j.Logger;

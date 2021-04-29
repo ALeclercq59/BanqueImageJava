@@ -51,7 +51,7 @@ class UserServiceImplTest {
     @Test
     @Transactional
     void read() {
-        Long id = 4L;
+        Long id = 1L;
         Users user = service.read(id);
         log.trace("User : {}", user);
     }

@@ -35,15 +35,5 @@ public class UsersController {
         return service.read(id);
     }
 
-    
-    @GetMapping("/identification")
-    public ResponseEntity<Users> getUserByEmailAndPassword(@PathParam("email") String email, @PathParam("password") String password) {
-        Users users = service.findUserByEmailAndPassword(email, password);
-        if (users != null) {
-            return new ResponseEntity<>(users, HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
-    }
+
 }

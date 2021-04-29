@@ -53,7 +53,7 @@ class ImageServiceImplTest {
         categorie.setLibelle("Bâtiment");
 
         Image imageTest = new Image();
-        imageTest.setDescription("Un beau bâtiment");
+        imageTest.setDescription("Un beau bâtiment wow");
         imageTest.setLien("vbn,");
         imageTest.setCopyright(0);
         imageTest.setPublication(0);
