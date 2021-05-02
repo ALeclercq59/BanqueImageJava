@@ -1,12 +1,14 @@
 package fr.BanqueImageJava.controllers;
 
+import fr.BanqueImageJava.entities.Categorie;
 import fr.BanqueImageJava.entities.Image;
 import fr.BanqueImageJava.services.ImageService;
 import fr.BanqueImageJava.services.UserService;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+import fr.BanqueImageJava.services.client.DetectLbalResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.UrlResource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +19,8 @@ import javax.websocket.server.PathParam;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.UUID;
+import java.nio.file.Files;
+import java.util.*;
 
 @RestController
 @RequestMapping("api/images")
@@ -36,7 +35,7 @@ public class ImageController {
         this.userService = userService;
     }
 
-    String linkImage = "D:\\Cours B3\\JAVA\\TP-BanqueImage\\TP-BanqueImage\\src\\images\\";
+    String linkImage = "D:/Cours B3/JAVA/TP-BanqueImage/TP-BanqueImage/src/main/resources/images/";
 
     @GetMapping({"", "/all"})
     public List<Image> getAllImages() {
@@ -60,7 +59,7 @@ public class ImageController {
     }
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Object> uploadFile(@PathParam("idUser") Long idUser, @RequestPart MultipartFile file, @PathParam("description") String description, @PathParam("copyright") int copyright) throws IOException {
+    public ResponseEntity<Object> uploadFile(@PathParam("idUser") Long idUser, @RequestPart MultipartFile file, @PathParam("description") String description, @PathParam("copyright") int copyright) throws Exception {
 
         UUID uuid = UUID.randomUUID();
         String uuidAsString = uuid.toString();
@@ -83,11 +82,31 @@ public class ImageController {
         fout.close();
 
         Image imageCreated = service.read(image.getId());
-        imageCreated.setLien(linkImage + name);
+        imageCreated.setLien("http://localhost:8082/api/images/show/" + name);
         service.update(imageCreated);
 
-        service.urlSignImage(name, linkImage + name);
+        DetectLbalResponse detectLbalResponse = service.urlSignImage(name);
 
-        return new ResponseEntity<>("File is uploaded seccessfully", HttpStatus.OK);
+        Map<String, Object> dictionary = new HashMap<String, Object>();
+
+        dictionary.put("Image", imageCreated );
+        dictionary.put("DetectLabelResponse", detectLbalResponse);
+
+        return ResponseEntity.ok().body(dictionary);
     }
+
+    @RequestMapping(value = "/show/{name}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getImage(@PathVariable("name") String name) throws IOException {
+        File file = new File(linkImage + name);
+
+        byte[] data = Files.readAllBytes(file.toPath());
+
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(data);
+    }
+
+    @PutMapping(value="/{id}/addCategorie")
+    public void addCategorie(@PathVariable("id") Long id, @PathParam("categories") String[] categories) {
+        service.addCategorieForImage(id, categories);
+    }
+
 }

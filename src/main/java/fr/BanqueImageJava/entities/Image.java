@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.swing.text.Element;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -41,5 +42,4 @@ public class Image {
     @JoinColumn(name = "iduser")
     @JsonIgnoreProperties("images")
     private Users users;
-
 }

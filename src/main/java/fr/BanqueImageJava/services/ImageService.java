@@ -2,8 +2,8 @@ package fr.BanqueImageJava.services;
 
 import fr.BanqueImageJava.entities.Categorie;
 import fr.BanqueImageJava.entities.Image;
+import fr.BanqueImageJava.services.client.DetectLbalResponse;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface ImageService {
@@ -12,5 +12,6 @@ public interface ImageService {
     Image read(Long id);
     Image update(Image image);
     void delete(Long id);
-    void urlSignImage(String nameImage, String path) throws IOException;
+    DetectLbalResponse urlSignImage(String nameImage) throws Exception;
+    void addCategorieForImage(Long id, String[] categories);
 }
