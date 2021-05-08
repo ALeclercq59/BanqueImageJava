@@ -1,11 +1,14 @@
-package fr.BanqueImageJava.services;
+package fr.BanqueImageJava.services.image;
 
 import fr.BanqueImageJava.entities.Categorie;
 import fr.BanqueImageJava.entities.Image;
+import fr.BanqueImageJava.entities.MotCle;
 import fr.BanqueImageJava.repositories.ImageRepository;
+import fr.BanqueImageJava.services.categorie.CategorieService;
 import fr.BanqueImageJava.services.client.DetectLbalResponse;
 import fr.BanqueImageJava.services.client.FileNameDTO;
 import fr.BanqueImageJava.services.client.SignUrlResponse;
+import fr.BanqueImageJava.services.motCle.MotCleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -15,21 +18,23 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class ImageServiceImpl implements ImageService{
+public class ImageServiceImpl implements ImageService {
     private final static Logger log = LoggerFactory.getLogger(ImageServiceImpl.class);
 
     private final ImageRepository repository;
 
     private final CategorieService categorieService;
 
-    public ImageServiceImpl(ImageRepository repository, CategorieService categorieService) {
+    private final MotCleService motCleService;
+
+    public ImageServiceImpl(ImageRepository repository, CategorieService categorieService, MotCleService motCleService) {
         log.trace("ImageServiceImpl instanced ");
         this.repository = repository;
         this.categorieService = categorieService;
+        this.motCleService = motCleService;
     }
 
     @Override
@@ -114,6 +119,31 @@ public class ImageServiceImpl implements ImageService{
         image.setCategories(listCategories);
 
         update(image);
+    }
+
+    public void addMotclesForImage(Long id, String[] motcles) {
+        Image image = read(id);
+        var listMotcles = image.getMotCles();
+
+        for (String nameMotcle : motcles) {
+            if(motCleService.getOneMotCleByLibelle(nameMotcle) != null) {
+                listMotcles.add(motCleService.getOneMotCleByLibelle(nameMotcle));
+            }
+            else {
+                MotCle motCle = new MotCle();
+                motCle.setLibelle(nameMotcle);
+                var motCleCreated = motCleService.create(motCle);
+                listMotcles.add(motCleCreated);
+            }
+        }
+
+        image.setMotCles(listMotcles);
+
+        update(image);
+    }
+
+    public List<Image> getImageByPublication(Long id) {
+        return repository.getByPublicationEquals(Math.toIntExact(id));
     }
 
 }

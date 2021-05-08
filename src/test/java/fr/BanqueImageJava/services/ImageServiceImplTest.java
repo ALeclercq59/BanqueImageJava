@@ -3,6 +3,7 @@ package fr.BanqueImageJava.services;
 import fr.BanqueImageJava.entities.Categorie;
 import fr.BanqueImageJava.entities.Image;
 import fr.BanqueImageJava.entities.Users;
+import fr.BanqueImageJava.services.image.ImageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

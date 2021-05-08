@@ -1,15 +1,11 @@
 package fr.BanqueImageJava.controllers;
 
-import fr.BanqueImageJava.entities.Categorie;
 import fr.BanqueImageJava.entities.Image;
-import fr.BanqueImageJava.services.ImageService;
-import fr.BanqueImageJava.services.UserService;
+import fr.BanqueImageJava.services.image.ImageService;
+import fr.BanqueImageJava.services.user.UserService;
 import fr.BanqueImageJava.services.client.DetectLbalResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +19,7 @@ import java.nio.file.Files;
 import java.util.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("api/images")
 public class ImageController {
     private final static Logger log = LoggerFactory.getLogger(ImageController.class);
@@ -47,6 +44,11 @@ public class ImageController {
         return service.read(id);
     }
 
+    @GetMapping("/publication/{nombre}")
+    public List<Image> getImageByPublication(@PathVariable("nombre") Long nombre) {
+        return service.getImageByPublication(nombre);
+    }
+
     @PostMapping("/create")
     public Image create(@PathParam("description") String description, @PathParam("idUser") Long idUser) {
         Image image = new Image();
@@ -65,6 +67,7 @@ public class ImageController {
         String uuidAsString = uuid.toString();
 
         Image image = new Image();
+        image.setName("");
         image.setUsers(userService.read(idUser));
         image.setDescription(description);
         image.setCopyright(copyright);
@@ -82,17 +85,24 @@ public class ImageController {
         fout.close();
 
         Image imageCreated = service.read(image.getId());
+
+        imageCreated.setName(name);
         imageCreated.setLien("http://localhost:8082/api/images/show/" + name);
         service.update(imageCreated);
 
-        DetectLbalResponse detectLbalResponse = service.urlSignImage(name);
+        return ResponseEntity.ok().body(imageCreated);
+    }
 
-        Map<String, Object> dictionary = new HashMap<String, Object>();
 
-        dictionary.put("Image", imageCreated );
-        dictionary.put("DetectLabelResponse", detectLbalResponse);
+    @GetMapping(value="/analyse/{id}")
+    public DetectLbalResponse analyseImage(@PathVariable("id") Long id) throws Exception {
+        Image image = service.read(id);
+        return service.urlSignImage(image.getName());
+    }
 
-        return ResponseEntity.ok().body(dictionary);
+    @PutMapping(value="/update")
+    public Image updateImage(Image image) {
+        return service.update(image);
     }
 
     @RequestMapping(value = "/show/{name}", method = RequestMethod.GET)
@@ -107,6 +117,11 @@ public class ImageController {
     @PutMapping(value="/{id}/addCategorie")
     public void addCategorie(@PathVariable("id") Long id, @PathParam("categories") String[] categories) {
         service.addCategorieForImage(id, categories);
+    }
+
+    @PutMapping(value="/{id}/addMotCles")
+    public void addMotCles(@PathVariable("id") Long id, @PathParam("motCles") String[] motcles) {
+        service.addCategorieForImage(id, motcles);
     }
 
 }

@@ -1,4 +1,4 @@
-package fr.BanqueImageJava.services;
+package fr.BanqueImageJava.services.user;
 
 import fr.BanqueImageJava.entities.Users;
 

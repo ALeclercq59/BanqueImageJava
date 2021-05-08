@@ -1,4 +1,4 @@
-package fr.BanqueImageJava.services;
+package fr.BanqueImageJava.services.categorie;
 
 import fr.BanqueImageJava.entities.Categorie;
 import fr.BanqueImageJava.repositories.CategorieRepository;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CategorieServiceImpl implements CategorieService{
+public class CategorieServiceImpl implements CategorieService {
     private final static Logger log = LoggerFactory.getLogger(CategorieServiceImpl.class);
 
     private final CategorieRepository repository;

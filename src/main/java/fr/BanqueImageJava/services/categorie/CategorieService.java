@@ -1,4 +1,4 @@
-package fr.BanqueImageJava.services;
+package fr.BanqueImageJava.services.categorie;
 
 import fr.BanqueImageJava.entities.Categorie;
 

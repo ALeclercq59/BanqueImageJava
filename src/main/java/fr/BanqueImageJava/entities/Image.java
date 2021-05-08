@@ -6,9 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.swing.text.Element;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -22,6 +20,7 @@ public class Image {
     @Column(name = "idimage")
     private Long id;
 
+    private String name;
     private String description;
     private String lien;
     private int copyright;
@@ -37,6 +36,14 @@ public class Image {
     @ToString.Exclude
     @JsonIgnoreProperties("images")
     private List<Categorie> categories;
+
+    @ManyToMany
+    @JoinTable(name = "image_mot_cle",
+            joinColumns = @JoinColumn(name = "idimage"),
+            inverseJoinColumns = @JoinColumn(name = "idmotcle"))
+    @ToString.Exclude
+    @JsonIgnoreProperties("images")
+    private List<MotCle> motCles;
 
     @ManyToOne
     @JoinColumn(name = "iduser")

@@ -1,7 +1,9 @@
-package fr.BanqueImageJava.services;
+package fr.BanqueImageJava.services.user;
 
 import fr.BanqueImageJava.entities.Users;
 import fr.BanqueImageJava.repositories.UsersRepository;
+import fr.BanqueImageJava.services.categorie.CategorieServiceImpl;
+import fr.BanqueImageJava.services.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -9,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final static Logger log = LoggerFactory.getLogger(CategorieServiceImpl.class);
 
     private final UsersRepository repository;
