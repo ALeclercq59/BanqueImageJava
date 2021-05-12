@@ -4,6 +4,7 @@ import fr.BanqueImageJava.entities.Image;
 import fr.BanqueImageJava.services.image.ImageService;
 import fr.BanqueImageJava.services.user.UserService;
 import fr.BanqueImageJava.services.client.DetectLbalResponse;
+import org.apache.tomcat.jni.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -16,6 +17,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
@@ -61,7 +66,7 @@ public class ImageController {
     }
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Object> uploadFile(@PathParam("idUser") Long idUser, @RequestPart MultipartFile file, @PathParam("description") String description, @PathParam("copyright") int copyright) throws Exception {
+    public ResponseEntity<Object> uploadFile(@PathParam("idUser") Long idUser, @RequestPart MultipartFile file, @PathParam("title") String title,  @PathParam("description") String description, @PathParam("copyright") int copyright) throws Exception {
 
         UUID uuid = UUID.randomUUID();
         String uuidAsString = uuid.toString();
@@ -69,6 +74,7 @@ public class ImageController {
         Image image = new Image();
         image.setName("");
         image.setUsers(userService.read(idUser));
+        image.setTitle(title);
         image.setDescription(description);
         image.setCopyright(copyright);
         image.setPublication(1);
@@ -120,8 +126,26 @@ public class ImageController {
     }
 
     @PutMapping(value="/{id}/addMotCles")
-    public void addMotCles(@PathVariable("id") Long id, @PathParam("motCles") String[] motcles) {
-        service.addCategorieForImage(id, motcles);
+    public void addMotCles(@PathVariable("id") Long id, @PathParam("motcles") String[] motcles) {
+        for (var mot: motcles)
+        {
+            System.out.println(mot);
+        }
+        service.addMotclesForImage(id, motcles);
+    }
+
+    @PutMapping(value="/{id}/date")
+    public Image updateDate(@PathVariable("id") Long id, @PathParam("date") String date){
+        Image image = service.read(id);
+        image.setDateAccord(LocalDate.parse(date));
+        return service.update(image);
+    }
+
+    @PutMapping(value="/{id}/publication")
+    public Image updatePublication(@PathVariable("id") Long id, @PathParam("publication") Long publication) {
+        Image image = service.read(id);
+        image.setPublication(Math.toIntExact(publication));
+        return service.update(image);
     }
 
 }

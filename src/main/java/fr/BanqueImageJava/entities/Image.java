@@ -6,7 +6,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,7 +21,7 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idimage")
     private Long id;
-
+    private String title;
     private String name;
     private String description;
     private String lien;
@@ -27,7 +29,7 @@ public class Image {
     private int publication;
 
     @Column(name = "dateaccordpersonnepresente")
-    private LocalDateTime dateAccord;
+    private LocalDate dateAccord;
 
     @ManyToMany
     @JoinTable(name = "image_categorie",
