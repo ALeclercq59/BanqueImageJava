@@ -1,5 +1,6 @@
 package fr.BanqueImageJava.entities;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,21 +10,25 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "categorie")
+@Table(name="user")
 @Getter
 @Setter
 @ToString
-public class Categorie {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idcategorie")
-    private Long id;
+    @Column(name = "iduser")
+    private Long idUser;
 
-    private String libelle;
+    private String name;
+    private String firstname;
+    private String email;
+    private String password;
+    private Long role;
 
-    @ManyToMany(mappedBy="categories")
+    @OneToMany(mappedBy = "users")
     @ToString.Exclude
-    @JsonIgnoreProperties("categories")
+    @JsonIgnoreProperties("users")
     private List<Image> images;
 
 }

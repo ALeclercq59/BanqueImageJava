@@ -1,7 +1,6 @@
 package fr.BanqueImageJava.repositories;
 
-import fr.BanqueImageJava.entities.Image;
-import fr.BanqueImageJava.entities.User;
+import fr.BanqueImageJava.entities.Users;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -12,12 +11,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class UserRepositoryTest {
+class UsersRepositoryTest {
 
-    private final static Logger log = LoggerFactory.getLogger(UserRepositoryTest.class);
+    private final static Logger log = LoggerFactory.getLogger(UsersRepositoryTest.class);
 
     @Autowired
-    private UserRepository repository;
+    private UsersRepository repository;
 
     @BeforeEach
     void setUp() {
@@ -26,20 +25,20 @@ class UserRepositoryTest {
     }
 
     @Test
-    void findAllImages() {
+    void findAllUsers() {
         log.trace("START findAllUsers");
         var lst = repository.findAll();
         lst.forEach(c->log.trace("{}", c));
-        log.trace("Number of images : {}", lst.size());
-        log.trace("END findAllImages");
+        log.trace("Number of users : {}", lst.size());
+        log.trace("END findAllUsers");
     }
 
     @Test
     void findUserById() {
-        log.trace("START findImageById");
+        log.trace("START findUsersById");
         Long id = 1L;
-        User user = repository.findById(id).orElse(null);
+        Users user = repository.findById(id).orElse(null);
         log.trace("User Id({}) : {}", id, user);
-        log.trace("END findImageById");
+        log.trace("END findUsersById");
     }
 }

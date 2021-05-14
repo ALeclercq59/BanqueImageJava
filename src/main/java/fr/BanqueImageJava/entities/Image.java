@@ -1,45 +1,52 @@
 package fr.BanqueImageJava.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table(name = "image")
+@Setter
+@Getter
+@ToString
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idimage")
     private Long id;
-
+    private String title;
+    private String name;
     private String description;
     private String lien;
-    private int copyright;
-    private int publication;
+    private Long copyright;
+    private Long publication;
 
     @Column(name = "dateaccordpersonnepresente")
-    private Date dateAccord;
+    private LocalDate dateAccord;
 
     @ManyToMany
     @JoinTable(name = "image_categorie",
-            joinColumns = @JoinColumn(name = "idImage"),
-            inverseJoinColumns = @JoinColumn(name = "idCategorie"))
+            joinColumns = @JoinColumn(name = "idimage"),
+            inverseJoinColumns = @JoinColumn(name = "idcategorie"))
+    @ToString.Exclude
+    @JsonIgnoreProperties("images")
     private List<Categorie> categories;
 
-    @ManyToOne()
-    @JoinColumn(name = "iduser")
-    private User user;
+    @ManyToMany
+    @JoinTable(name = "image_mot_cle",
+            joinColumns = @JoinColumn(name = "idimage"),
+            inverseJoinColumns = @JoinColumn(name = "idmotcle"))
+    @ToString.Exclude
+    @JsonIgnoreProperties("images")
+    private List<MotCle> motCles;
 
-    @Override
-    public String toString() {
-        return "Image{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", lien='" + lien + '\'' +
-                ", copyright=" + copyright +
-                ", publication=" + publication +
-                ", dateAccordPersonnePresente=" + dateAccord +
-                ", user=" + user +
-                '}';
-    }
+    @ManyToOne
+    @JoinColumn(name = "iduser")
+    @JsonIgnoreProperties("images")
+    private Users users;
 }

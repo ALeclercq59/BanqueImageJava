@@ -9,21 +9,20 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "categorie")
+@Table(name = " mot_cle")
 @Getter
 @Setter
 @ToString
-public class Categorie {
+public class MotCle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idcategorie")
+    @Column(name = "idmotcle")
     private Long id;
 
     private String libelle;
 
-    @ManyToMany(mappedBy="categories")
+    @ManyToMany(mappedBy = "motCles")
     @ToString.Exclude
-    @JsonIgnoreProperties("categories")
+    @JsonIgnoreProperties("motCles")
     private List<Image> images;
-
 }

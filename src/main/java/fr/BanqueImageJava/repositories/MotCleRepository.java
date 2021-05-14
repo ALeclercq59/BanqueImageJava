@@ -1,10 +1,10 @@
 package fr.BanqueImageJava.repositories;
 
-import fr.BanqueImageJava.entities.ImageCategorie;
+import fr.BanqueImageJava.entities.MotCle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ImageCategorieRepository extends JpaRepository<ImageCategorie, Long> {
-
+public interface MotCleRepository extends JpaRepository<MotCle, Long> {
+    MotCle getByLibelle(String Libelle);
 }
