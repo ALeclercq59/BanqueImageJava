@@ -105,14 +105,8 @@ public class ImageServiceImpl implements ImageService {
         var listCategories = image.getCategories();
 
         for (String nameCat : categories) {
-            if(categorieService.getOneCategoryByLibelle(nameCat) != null) {
+            if (!image.getCategories().contains(categorieService.getOneCategoryByLibelle(nameCat))) {
                 listCategories.add(categorieService.getOneCategoryByLibelle(nameCat));
-            }
-            else {
-                Categorie categorie = new Categorie();
-                categorie.setLibelle(nameCat);
-                var categorieCreated = categorieService.create(categorie);
-                listCategories.add(categorieCreated);
             }
         }
 

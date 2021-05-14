@@ -17,10 +17,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
@@ -54,19 +51,9 @@ public class ImageController {
         return service.getImageByPublication(nombre);
     }
 
-    @PostMapping("/create")
-    public Image create(@PathParam("description") String description, @PathParam("idUser") Long idUser) {
-        Image image = new Image();
-        image.setDescription(description);
-        image.setCopyright(1);
-        image.setPublication(1);
-        image.setLien("vide");
-        image.setUsers(userService.read(idUser));
-        return service.create(image);
-    }
-
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Object> uploadFile(@PathParam("idUser") Long idUser, @RequestPart MultipartFile file, @PathParam("title") String title,  @PathParam("description") String description, @PathParam("copyright") int copyright) throws Exception {
+    public ResponseEntity<Object> uploadFile(@PathParam("idUser") Long idUser, @RequestPart MultipartFile file, @PathParam("title") String title,
+                                             @PathParam("description") String description, @PathParam("copyright") Long copyright) throws Exception {
 
         UUID uuid = UUID.randomUUID();
         String uuidAsString = uuid.toString();
@@ -77,7 +64,7 @@ public class ImageController {
         image.setTitle(title);
         image.setDescription(description);
         image.setCopyright(copyright);
-        image.setPublication(1);
+        image.setPublication(1L);
         image.setLien("vide");
         service.create(image);
 
@@ -144,7 +131,18 @@ public class ImageController {
     @PutMapping(value="/{id}/publication")
     public Image updatePublication(@PathVariable("id") Long id, @PathParam("publication") Long publication) {
         Image image = service.read(id);
-        image.setPublication(Math.toIntExact(publication));
+        image.setPublication(publication);
+        return service.update(image);
+    }
+
+    @PutMapping(value="/{id}/update")
+    public Image updateImage(@PathVariable("id") Long id, @PathParam("title") String title, @PathParam("description") String description, @PathParam("copyright") Long copyright, @PathParam("publication") Long publication) {
+        Image image = service.read(id);
+        image.setTitle(title);
+        image.setDescription(description);
+        image.setCopyright(copyright);
+        image.setPublication(publication);
+
         return service.update(image);
     }
 

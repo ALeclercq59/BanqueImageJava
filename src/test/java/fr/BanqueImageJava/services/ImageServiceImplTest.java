@@ -56,8 +56,8 @@ class ImageServiceImplTest {
         Image imageTest = new Image();
         imageTest.setDescription("Un beau bâtiment wow");
         imageTest.setLien("vbn,");
-        imageTest.setCopyright(0);
-        imageTest.setPublication(0);
+        imageTest.setCopyright(0L);
+        imageTest.setPublication(0L);
         imageTest.setDateAccord(null);
         imageTest.setCategories(Collections.singletonList(categorie));
 

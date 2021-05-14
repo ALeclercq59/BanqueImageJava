@@ -7,8 +7,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,8 +23,8 @@ public class Image {
     private String name;
     private String description;
     private String lien;
-    private int copyright;
-    private int publication;
+    private Long copyright;
+    private Long publication;
 
     @Column(name = "dateaccordpersonnepresente")
     private LocalDate dateAccord;
